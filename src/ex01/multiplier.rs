@@ -8,8 +8,8 @@ pub fn multiplier(mut a : u32, mut b : u32) -> u32 {
 		if b & 1 == 1 {
 			result = adder(result, a);
 		}
-		a = a << 1;
-		b = b >> 1;
+		a <<= 1;
+		b >>= 1;
 	}
 
 	result
