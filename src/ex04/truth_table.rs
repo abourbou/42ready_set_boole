@@ -17,7 +17,7 @@ pub fn print_truth_table(formula: &str) {
 		let c = formula.chars().nth(i).unwrap();
 		if ALLOWED_CHAR.contains(c) {}
 		else if c.is_ascii_uppercase() {
-			if !map_var.get(&c).is_none() {
+			if map_var.get(&c).is_some() {
 				panic!("Unvalid formula : 2 times the same caracter");
 			}
 			map_var.insert(c, i);
@@ -71,4 +71,8 @@ pub fn print_truth_table(formula: &str) {
 	#[test]
 	fn test_valid02() {
 		print_truth_table("AB>C|");
+	}
+	#[test]
+	fn test_valid03() {
+		print_truth_table("AB=");
 	}

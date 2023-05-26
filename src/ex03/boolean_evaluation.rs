@@ -11,7 +11,7 @@ pub fn eval_formula(formula: &str) -> bool {
 	evaluate_btree(&tree)
 }
 
-pub fn create_btree(formula: &str) -> Tree<char> {
+fn create_btree(formula: &str) -> Tree<char> {
 
 	if formula.is_empty() {
 		panic!("Formula must not be empty");
@@ -44,8 +44,7 @@ fn create_operator_node(tree: &mut Tree<char>, prev_node_id : InsertBehavior, cu
 {
 	let node_id = tree.insert(Node::new(operator), prev_node_id).unwrap();
 	for _i in 0..nbr_arg {
-		let last_char = curr_formula.pop();
-		match last_char {
+		match curr_formula.pop() {
 			None => panic!("invalid formula : incomplete"),
 			Some(c) => {
 				if c == '0' || c == '1' {
