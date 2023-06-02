@@ -85,7 +85,7 @@ fn erase_forbidd_op(tree: &mut Tree<char>, forbidd_id : NodeId, forbidd_char : c
 	}
 }
 
-fn erase_neg(tree: &mut Tree<char>, neg_id : NodeId, forbidd_char : char) {
+pub fn erase_neg(tree: &mut Tree<char>, neg_id : NodeId, forbidd_char : char) {
 
 	let children_id = tree.traverse_level_order_ids(&neg_id).unwrap().nth(2).unwrap();
 	let operat_id = tree.get(&neg_id).unwrap().children().iter().next().unwrap().clone();
@@ -206,7 +206,7 @@ pub fn print_tree(tree: &Tree<char>) {
 }
 
 // Insert a node '!' just before node_id
-fn insert_neg(tree: &mut Tree<char>, node_id : &NodeId) {
+pub fn insert_neg(tree: &mut Tree<char>, node_id : &NodeId) {
 	let neg_id = tree.insert(Node::new('!'), UnderNode(node_id)).unwrap();
 	tree.swap_nodes(node_id, &neg_id, TakeChildren).unwrap();
 }
@@ -214,7 +214,7 @@ fn insert_neg(tree: &mut Tree<char>, node_id : &NodeId) {
 
 // * Utils to create subtree and insert them in a tree
 // Create a whole subtree from origin_id node
-fn copy_subtree(tree : & Tree<char>, origin_id : &NodeId) -> Tree<char>{
+pub fn copy_subtree(tree : & Tree<char>, origin_id : &NodeId) -> Tree<char>{
 	let mut sub_tree = Tree::new();
 	recurs_copy_subtree(tree, &mut sub_tree, origin_id, AsRoot);
 
@@ -230,7 +230,7 @@ fn recurs_copy_subtree(tree : &Tree<char>, sub_tree : &mut Tree<char>, current_i
 }
 
 // Insert sub_tree under node_id of tree
-fn insert_subtree(tree : &mut Tree<char>, sub_tree : &Tree<char>, node_id  : &NodeId){
+pub fn insert_subtree(tree : &mut Tree<char>, sub_tree : &Tree<char>, node_id  : &NodeId){
 	recurs_insert_subtree(tree, sub_tree, node_id, sub_tree.root_node_id().unwrap());
 }
 
