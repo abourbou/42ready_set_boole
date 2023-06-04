@@ -8,7 +8,7 @@ const ALLOWED_CHAR : &str = "!&|^>=";
 
 pub fn print_truth_table(formula: &str) {
 
-	let mut map_var = BTreeMap::<char, usize>::new();
+	let mut map_var = BTreeMap::<char, Vec<usize>>::new();
 
 	if formula.is_empty() {
 		panic!("Empty formula");
@@ -17,10 +17,10 @@ pub fn print_truth_table(formula: &str) {
 		let c = formula.chars().nth(i).unwrap();
 		if ALLOWED_CHAR.contains(c) {}
 		else if c.is_ascii_uppercase() {
-			if map_var.get(&c).is_some() {
-				panic!("Unvalid formula : 2 times the same caracter");
-			}
-			map_var.insert(c, i);
+			match map_var.get_mut(&c) {
+				Some(vec) => vec.push(i),
+				None => {map_var.insert(c, vec![i]);},
+			};
 		} else {
 			panic!("Unvalid formula : unknown character");
 		}
@@ -35,10 +35,12 @@ pub fn print_truth_table(formula: &str) {
 	let mut buffer_formula : Vec<char> = formula.chars().collect();
 	for nb in 0..(1 << map_var.len()) {
 		let mut i = map_var.len();
-		for pos in map_var.values() {
+		for vec_pos in map_var.values() {
 			i -= 1;
 			let val = char::from_digit(nb >> i & 1, 2).unwrap();
-			buffer_formula[*pos] = val;
+			for pos in vec_pos.iter() {
+				buffer_formula[*pos] = val;
+			}
 			print!("| {} ", val);
 			std::io::stdout().flush().unwrap();
 		}
